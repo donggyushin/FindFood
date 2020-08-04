@@ -4,6 +4,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import LoginScreen from '../screens/LoginScreen';
 import rootRoutes from '../constants/Routes';
 import LocalLoginScreen from '../screens/LocalLoginScreen';
+import NewAccountScreen from '../screens/NewAccountScreen';
 
 const Stack = createStackNavigator();
 
@@ -31,6 +32,11 @@ const LoginStackNavigation = () => {
           options={{
             title: '로그인',
           }}
+        />
+        <Stack.Screen
+          name={rootRoutes.loginRoutes.newAccount}
+          options={{title: '회원가입'}}
+          component={NewAccountScreen}
         />
       </Stack.Navigator>
     </NavigationContainer>

@@ -4,7 +4,9 @@ import rootRoutes from '../constants/Routes';
 
 const LocalLoginButton = ({navigation}) => {
   const moveToLocaclLoginScreen = () => {
-    navigation.navigate(rootRoutes.loginRoutes.local);
+    navigation.navigate(rootRoutes.loginRoutes.local, {
+      navigation,
+    });
   };
 
   return (

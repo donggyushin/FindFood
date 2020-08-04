@@ -2,81 +2,78 @@ import React, {useState} from 'react';
 import {
   StyleSheet,
   View,
-  TextInput,
-  Button,
+  SafeAreaView,
   TouchableWithoutFeedback,
-  TouchableOpacity,
-  Text,
+  Button,
   Alert,
 } from 'react-native';
+import {TextInput} from 'react-native-gesture-handler';
 import {dismissKeyboard, nameAndPasswordValidationCheck} from '../utils/Utils';
-import Colors from '../constants/Colors';
-import rootRoutes from '../constants/Routes';
 
-const LocalLoginScreen = ({route}) => {
-  const [name, setName] = useState('');
-  const [password, setPassword] = useState('');
+const NewAccountScreen = () => {
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const {navigation} = route.params;
+  const [name, setName] = useState('');
+  const [password1, setPassword1] = useState('');
+  const [password2, setPassword2] = useState('');
 
-  const handleName = (name) => {
-    setName(name);
+  const handleName = (text) => {
+    setName(text);
   };
 
-  const handlePassword = (password) => {
-    setPassword(password);
+  const handlePassword1 = (text) => {
+    setPassword1(text);
   };
 
-  const login = () => {
+  const handlePassword2 = (text) => {
+    setPassword2(text);
+  };
+
+  const makeNewAccount = () => {
     setButtonDisabled(true);
     if (nameAndPasswordValidationCheck() === false) {
       setButtonDisabled(false);
-      return;
     }
-    console.log('Login!!!');
-  };
-
-  const moveToNewAccountScreen = () => {
-    navigation.navigate(rootRoutes.loginRoutes.newAccount);
+    console.log('make new account!!');
   };
 
   return (
     <TouchableWithoutFeedback onPress={dismissKeyboard}>
-      <View style={styles.container}>
-        <View style={styles.textInputContainer}>
+      <SafeAreaView style={styles.container}>
+        <View style={styles.textInputsContainer}>
           <TextInput
+            onChangeText={handleName}
             style={styles.textInput}
             value={name}
             placeholder={'이름'}
-            onChangeText={handleName}
             maxLength={18}
           />
           <View style={{height: 20}} />
           <TextInput
-            secureTextEntry={true}
+            onChangeText={handlePassword1}
             style={styles.textInput}
-            value={password}
+            value={password1}
             placeholder={'암구호'}
-            onChangeText={handlePassword}
             maxLength={18}
           />
+          <View style={{height: 20}} />
+          <TextInput
+            onChangeText={handlePassword2}
+            style={styles.textInput}
+            value={password2}
+            placeholder={'암구호 확인'}
+            maxLength={18}
+          />
+          <View style={{height: 30}} />
           <View style={styles.loginButton}>
             <Button
               disabled={buttonDisabled}
-              onPress={login}
               color={'black'}
-              title={'로그인 하기'}
+              onPress={makeNewAccount}
+              title={'회원가입 하기'}
             />
           </View>
-          <TouchableOpacity
-            onPress={moveToNewAccountScreen}
-            style={styles.notYetTextContainer}>
-            <Text style={styles.notYetText}>
-              아직 맛집찾아줘 계정이 없으신가요?
-            </Text>
-          </TouchableOpacity>
         </View>
-      </View>
+      </SafeAreaView>
     </TouchableWithoutFeedback>
   );
 };
@@ -86,23 +83,20 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
   },
-  textInputContainer: {
-    width: '100%',
-    alignItems: 'center',
+  textInputsContainer: {
+    width: '80%',
     marginTop: 100,
   },
   textInput: {
+    borderBottomColor: 'black',
+    borderBottomWidth: 1,
     height: 50,
     maxWidth: 500,
-    borderWidth: 0,
-    borderBottomWidth: 1,
-    borderColor: 'black',
-    width: '80%',
     padding: 7,
   },
   loginButton: {
     marginTop: 50,
-    width: '79%',
+    width: '100%',
     maxWidth: 500,
     height: 60,
     borderRadius: 4,
@@ -118,12 +112,6 @@ const styles = StyleSheet.create({
     elevation: 3,
     backgroundColor: 'white',
   },
-  notYetText: {
-    color: Colors.blue,
-  },
-  notYetTextContainer: {
-    marginTop: 20,
-  },
 });
 
-export default LocalLoginScreen;
+export default NewAccountScreen;

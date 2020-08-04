@@ -6,6 +6,7 @@ import appleAuth, {
   AppleAuthRequestScope,
   AppleAuthCredentialState,
 } from '@invertase/react-native-apple-authentication';
+import {Keyboard, Alert} from 'react-native';
 
 GoogleSignin.configure({
   webClientId:
@@ -14,6 +15,25 @@ GoogleSignin.configure({
   hostedDomain: '',
   forceConsentPrompt: true,
 });
+
+export const nameAndPasswordValidationCheck = (name, password) => {
+  var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
+  if (!idReg.test(name) || !idReg.test(password)) {
+    Alert.alert(
+      '이름과 암구호는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.',
+    );
+    return false;
+  } else if (password1 !== password2) {
+    Alert.alert('암구호가 서로 다릅니다. 다시 한 번 확인해주세요!');
+    return false;
+  } else {
+    return true;
+  }
+};
+
+export const dismissKeyboard = () => {
+  Keyboard.dismiss();
+};
 
 export const appleLogin = async () => {
   // performs login request
