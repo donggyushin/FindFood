@@ -62,6 +62,7 @@ const NewAccountScreen = () => {
       return;
     }
     console.log('make new account!!');
+
     axios
       .post(`${endpoint}/user`, {
         name,
@@ -83,7 +84,7 @@ const NewAccountScreen = () => {
             Alert.alert('에러발생', '관리자에게 문의해주세요. 010-9041-1019');
             setButtonDisabled(false);
           }
-        } else if (status === 202) {
+        } else if (status === 409) {
           // 이미 존재하는 유저. 다른 유저명 사용 권유
           Alert.alert(
             '이미 존재하는 유저입니다.',
