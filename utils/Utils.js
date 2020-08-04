@@ -17,14 +17,12 @@ GoogleSignin.configure({
 });
 
 export const nameAndPasswordValidationCheck = (name, password) => {
-  var idReg = /^[a-z]+[a-z0-9]{5,19}$/g;
-  if (!idReg.test(name) || !idReg.test(password)) {
+  var idReg1 = /^[a-z]+[a-z0-9]{5,19}$/g;
+  var idReg2 = /^[a-z]+[a-z0-9]{5,19}$/g;
+  if (!idReg1.test(name) || !idReg2.test(password)) {
     Alert.alert(
       '이름과 암구호는 영문자로 시작하는 6~20자 영문자 또는 숫자이어야 합니다.',
     );
-    return false;
-  } else if (password1 !== password2) {
-    Alert.alert('암구호가 서로 다릅니다. 다시 한 번 확인해주세요!');
     return false;
   } else {
     return true;
@@ -82,11 +80,30 @@ export const kakaoLogin = () => {
     .catch((err) => console.error(err));
 };
 
+export const deleteToken = async () => {
+  try {
+    await AsyncStorage.removeItem('token');
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const saveToken = async (token) => {
+  try {
+    await AsyncStorage.setItem('token', token);
+    return true;
+  } catch (error) {
+    console.error(error);
+    return false;
+  }
+};
+
 export const checkUserLoggedIn = async () => {
   try {
     const value = await AsyncStorage.getItem('token');
     return value;
   } catch (error) {
+    console.error(error);
     return null;
   }
 };

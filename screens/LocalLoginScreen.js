@@ -7,17 +7,15 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
   Text,
-  Alert,
 } from 'react-native';
 import {dismissKeyboard, nameAndPasswordValidationCheck} from '../utils/Utils';
 import Colors from '../constants/Colors';
 import rootRoutes from '../constants/Routes';
 
-const LocalLoginScreen = ({route}) => {
+const LocalLoginScreen = ({navigation}) => {
   const [name, setName] = useState('');
   const [password, setPassword] = useState('');
   const [buttonDisabled, setButtonDisabled] = useState(false);
-  const {navigation} = route.params;
 
   const handleName = (name) => {
     setName(name);
@@ -29,7 +27,7 @@ const LocalLoginScreen = ({route}) => {
 
   const login = () => {
     setButtonDisabled(true);
-    if (nameAndPasswordValidationCheck() === false) {
+    if (nameAndPasswordValidationCheck(name, password) === false) {
       setButtonDisabled(false);
       return;
     }
@@ -49,6 +47,7 @@ const LocalLoginScreen = ({route}) => {
             value={name}
             placeholder={'이름'}
             onChangeText={handleName}
+            autoCapitalize={'none'}
             maxLength={18}
           />
           <View style={{height: 20}} />
@@ -59,6 +58,7 @@ const LocalLoginScreen = ({route}) => {
             placeholder={'암구호'}
             onChangeText={handlePassword}
             maxLength={18}
+            autoCapitalize={'none'}
           />
           <View style={styles.loginButton}>
             <Button

@@ -11,13 +11,16 @@ import {StatusBar} from 'react-native';
 import {Provider} from 'react-redux';
 import store from './stores/Store';
 import RootComponent from './components/RootComponent';
+import {NavigationContainer} from '@react-navigation/native';
 
 const App = () => {
   return (
     <Provider store={store}>
       <>
         <StatusBar barStyle="dark-content" />
-        <RootComponent />
+        <NavigationContainer>
+          <RootComponent />
+        </NavigationContainer>
       </>
     </Provider>
   );

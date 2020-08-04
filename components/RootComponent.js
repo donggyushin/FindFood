@@ -1,9 +1,12 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import LoadingScreen from '../screens/Loading';
-import FoodsScreen from '../screens/FoodsScreen';
 import {checkUserLoggedInAction} from '../actions/UserActions';
-import LoginStackNavigation from '../navigations/StackNavigations';
+import {
+  LoginStackNavigation,
+  FoodsStackNavigation,
+} from '../navigations/StackNavigations';
+import {MainDrawerNavigator} from '../navigations/DrawerNavigations';
 
 const RootComponent = () => {
   const userState = useSelector((state) => state.UserReducer);
@@ -22,7 +25,7 @@ const RootComponent = () => {
   if (userState.loading) {
     return <LoadingScreen />;
   } else if (userState.isLoggedIn) {
-    return <FoodsScreen />;
+    return <MainDrawerNavigator />;
   } else {
     return <LoginStackNavigation />;
   }

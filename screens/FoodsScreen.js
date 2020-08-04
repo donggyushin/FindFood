@@ -1,7 +1,18 @@
-import React from 'react';
-import {StyleSheet, View, Text} from 'react-native';
+import React, {useEffect} from 'react';
+import {StyleSheet, View, Text, Button} from 'react-native';
+import DrawerMenuButton from '../components/DrawerMenuButton';
 
-const FoodsScreen = () => {
+const FoodsScreen = ({navigation}) => {
+  const createButton = () => {
+    return <DrawerMenuButton navigation={navigation} />;
+  };
+
+  useEffect(() => {
+    navigation.setOptions({
+      headerLeft: createButton,
+    });
+  }, []);
+
   return (
     <View>
       <Text>Foods Screen</Text>
