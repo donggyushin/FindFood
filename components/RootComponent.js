@@ -1,11 +1,8 @@
 import React, {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import LoadingScreen from '../screens/Loading';
+import LoadingScreen from '../screens/LoadingScreen';
 import {checkUserLoggedInAction} from '../actions/UserActions';
-import {
-  LoginStackNavigation,
-  FoodsStackNavigation,
-} from '../navigations/StackNavigations';
+import {LoginStackNavigation} from '../navigations/StackNavigations';
 import {MainDrawerNavigator} from '../navigations/DrawerNavigations';
 
 const RootComponent = () => {

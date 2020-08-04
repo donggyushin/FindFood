@@ -9,7 +9,11 @@ import {
   Text,
   Alert,
 } from 'react-native';
-import {dismissKeyboard, nameAndPasswordValidationCheck} from '../utils/Utils';
+import {
+  dismissKeyboard,
+  nameAndPasswordValidationCheck,
+  saveToken,
+} from '../utils/Utils';
 import Colors from '../constants/Colors';
 import rootRoutes from '../constants/Routes';
 import axios from 'axios';
@@ -50,10 +54,18 @@ const LocalLoginScreen = ({navigation}) => {
         password,
       })
       .then((res) => res.data)
-      .then((data) => {
+      .then(async (data) => {
         const {token, status} = data;
         if (status === 200) {
-          return dispatch(userLoginAction(token));
+          const success = await saveToken(token);
+          if (success) {
+            return dispatch(userLoginAction(token));
+          } else {
+            Alert.alert(
+              '에러발생',
+              '알수없는 에러가 발생하였습니다. 개발자에게 문의해주세요 010 9041 1019',
+            );
+          }
         } else if (status === 404) {
           // 존재하지 않는 유저
           Alert.alert(
