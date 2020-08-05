@@ -4,10 +4,13 @@ import LoadingScreen from '../screens/LoadingScreen';
 import {checkUserLoggedInAction} from '../actions/UserActions';
 import {LoginStackNavigation} from '../navigations/StackNavigations';
 import {MainDrawerNavigator} from '../navigations/DrawerNavigations';
+// import {deleteToken} from '../utils/Utils';
 
 const RootComponent = () => {
   const userState = useSelector((state) => state.UserReducer);
   const dispatch = useDispatch();
+
+  // deleteToken();
 
   useEffect(() => {
     setTimeout(() => {

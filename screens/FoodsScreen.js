@@ -8,11 +8,13 @@ import Spinner from 'react-native-loading-spinner-overlay';
 import axios from 'axios';
 import {endpoint} from '../constants/Constants';
 import {setAdressAction} from '../actions/AddressAction';
+import {setFoodsAction} from '../actions/FoodsActions';
 
 const FoodsScreen = ({navigation}) => {
   const dispatch = useDispatch();
   const userLocation = useSelector((state) => state.UserLocationReducer);
   const address = useSelector((state) => state.AddressReducer);
+  const foodsReducer = useSelector((state) => state.FoodsReducer);
   const {longitude, latitude} = userLocation;
   const {area1Name, area2Name, area3Name} = address;
   const [loading, setLoading] = useState(true);
@@ -30,8 +32,17 @@ const FoodsScreen = ({navigation}) => {
   }, [longitude, latitude]);
 
   useEffect(() => {
-    console.log(area1Name, area2Name, area3Name);
+    if (area1Name && area2Name && area3Name) {
+      fetchFoods();
+    }
   }, [area1Name, area2Name, area3Name]);
+
+  useEffect(() => {
+    if (foodsReducer.loading === false) {
+      console.log('데이터 받아오기 성공!');
+      setLoading(false);
+    }
+  }, [foodsReducer.loading]);
 
   const getCurrentAddress = () => {
     axios
@@ -58,6 +69,40 @@ const FoodsScreen = ({navigation}) => {
         console.error(err);
         Alert.alert('에러발생', err.message);
         return;
+      });
+  };
+
+  const fetchFoods = () => {
+    axios
+      .get(
+        `${endpoint}/foods?area1Name=${area1Name}&area2Name=${area2Name}&area3Name=${area3Name}`,
+      )
+      .then((res) => res.data)
+      .then((data) => {
+        const {ok, status, length, foods, error} = data;
+        if (status === 200) {
+          return dispatch(setFoodsAction(foods));
+        } else if (status === 400) {
+          console.log('400 에러발생');
+          return Alert.alert(
+            '에러 발생',
+            '관리자에게 문의해주세요 010 9041 1019',
+          );
+        } else if (status === 500) {
+          console.log('500 에러발생');
+          return Alert.alert(
+            '에러 발생',
+            '관리자에게 문의해주세요 010 9041 1019',
+          );
+        }
+        return;
+      })
+      .catch((err) => {
+        console.error(err.message);
+        return Alert.alert(
+          '에러 발생',
+          '관리자에게 문의해주세요 010 9041 1019',
+        );
       });
   };
 
